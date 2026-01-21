@@ -14,43 +14,45 @@
     <link rel="icon" type="image/webp" href="../helmet-logo.webp">
     
     <!-- Mermaid.js -->
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ 
-            startOnLoad: true,
-            securityLevel: 'strict',
-            theme: 'dark',
-            themeVariables: {
-                primaryColor: '#10b981',
-                primaryTextColor: '#10b981',
-                primaryBorderColor: '#059669',
-                lineColor: '#3b82f6',
-                secondaryColor: '#1a1a1a',
-                tertiaryColor: '#0a0a0a',
-                background: '#000000',
-                mainBkg: '#0a0a0a',
-                secondBkg: '#1a1a1a',
-                textColor: '#e5e7eb',
-                edgeLabelBackground: '#000000',
-                clusterBkg: '#1a1a1a',
-                clusterBorder: '#f59e0b',
-                defaultLinkColor: '#3b82f6',
-                titleColor: '#fbbf24',
-                taskTextFontSize: '20px',
-                taskTextFontFamily: 'monospace',
-                fontSize: '16px',
-                fontFamily: 'monospace',
-            },
-            flowchart: {
-                curve: 'basis',
-                padding: 20,
-                nodeSpacing: 50,
-                rankSpacing: 80,
-                useMaxWidth: true,
-                htmlLabels: true,
-                fontSize: 16,
-                fontFamily: 'monospace',
-            },
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            mermaid.initialize({ 
+                startOnLoad: true,
+                securityLevel: 'strict',
+                theme: 'dark',
+                themeVariables: {
+                    primaryColor: '#10b981',
+                    primaryTextColor: '#10b981',
+                    primaryBorderColor: '#059669',
+                    lineColor: '#3b82f6',
+                    secondaryColor: '#1a1a1a',
+                    tertiaryColor: '#0a0a0a',
+                    background: '#000000',
+                    mainBkg: '#0a0a0a',
+                    secondBkg: '#1a1a1a',
+                    textColor: '#e5e7eb',
+                    edgeLabelBackground: '#000000',
+                    clusterBkg: '#1a1a1a',
+                    clusterBorder: '#f59e0b',
+                    defaultLinkColor: '#3b82f6',
+                    titleColor: '#fbbf24',
+                    taskTextFontSize: '20px',
+                    taskTextFontFamily: 'monospace',
+                    fontSize: '16px',
+                    fontFamily: 'monospace',
+                },
+                flowchart: {
+                    curve: 'basis',
+                    padding: 20,
+                    nodeSpacing: 50,
+                    rankSpacing: 80,
+                    useMaxWidth: true,
+                    htmlLabels: true,
+                    fontSize: 16,
+                    fontFamily: 'monospace',
+                },
+            });
         });
     </script>
     
@@ -641,65 +643,78 @@ flowchart LR
             const status = document.getElementById('diagram-status');
             const diagram = document.getElementById('mermaid-diagram');
             
+            if (typeof mermaid === 'undefined') {
+                status.textContent = 'Mermaid.js not loaded';
+                status.className = 'diagram-status error';
+                return;
+            }
+            
             button.disabled = true;
             status.textContent = 'Rendering diagram...';
             status.className = 'diagram-status rendering';
             
             // Clear and re-render
-            diagram.innerHTML = diagram.textContent;
+            const diagramText = diagram.getAttribute('data-diagram') || diagram.textContent;
+            diagram.innerHTML = '';
+            diagram.textContent = diagramText;
+            diagram.className = 'mermaid';
             
-            // Re-initialize Mermaid
-            import('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs').then(mermaid => {
-                mermaid.default.initialize({ 
-                    startOnLoad: true,
-                    securityLevel: 'strict',
-                    theme: 'dark',
-                    themeVariables: {
-                        primaryColor: '#10b981',
-                        primaryTextColor: '#10b981',
-                        primaryBorderColor: '#059669',
-                        lineColor: '#3b82f6',
-                        secondaryColor: '#1a1a1a',
-                        tertiaryColor: '#0a0a0a',
-                        background: '#000000',
-                        mainBkg: '#0a0a0a',
-                        secondBkg: '#1a1a1a',
-                        textColor: '#e5e7eb',
-                        edgeLabelBackground: '#000000',
-                        clusterBkg: '#1a1a1a',
-                        clusterBorder: '#f59e0b',
-                        defaultLinkColor: '#3b82f6',
-                        titleColor: '#fbbf24',
-                        taskTextFontSize: '20px',
-                        taskTextFontFamily: 'monospace',
-                        fontSize: '16px',
-                        fontFamily: 'monospace',
-                    },
-                    flowchart: {
-                        curve: 'basis',
-                        padding: 20,
-                        nodeSpacing: 50,
-                        rankSpacing: 80,
-                        useMaxWidth: true,
-                        htmlLabels: true,
-                        fontSize: 16,
-                        fontFamily: 'monospace',
-                    },
-                });
-                
-                mermaid.default.run();
-                
-                setTimeout(() => {
-                    button.disabled = false;
-                    status.textContent = 'Diagram rendered successfully';
-                    status.className = 'diagram-status success';
-                }, 1000);
+            // Re-initialize and render
+            mermaid.initialize({ 
+                startOnLoad: false,
+                securityLevel: 'strict',
+                theme: 'dark',
+                themeVariables: {
+                    primaryColor: '#10b981',
+                    primaryTextColor: '#10b981',
+                    primaryBorderColor: '#059669',
+                    lineColor: '#3b82f6',
+                    secondaryColor: '#1a1a1a',
+                    tertiaryColor: '#0a0a0a',
+                    background: '#000000',
+                    mainBkg: '#0a0a0a',
+                    secondBkg: '#1a1a1a',
+                    textColor: '#e5e7eb',
+                    edgeLabelBackground: '#000000',
+                    clusterBkg: '#1a1a1a',
+                    clusterBorder: '#f59e0b',
+                    defaultLinkColor: '#3b82f6',
+                    titleColor: '#fbbf24',
+                    taskTextFontSize: '20px',
+                    taskTextFontFamily: 'monospace',
+                    fontSize: '16px',
+                    fontFamily: 'monospace',
+                },
+                flowchart: {
+                    curve: 'basis',
+                    padding: 20,
+                    nodeSpacing: 50,
+                    rankSpacing: 80,
+                    useMaxWidth: true,
+                    htmlLabels: true,
+                    fontSize: 16,
+                    fontFamily: 'monospace',
+                },
+            });
+            
+            mermaid.run().then(() => {
+                button.disabled = false;
+                status.textContent = 'Diagram rendered successfully';
+                status.className = 'diagram-status success';
             }).catch(err => {
                 button.disabled = false;
-                status.textContent = 'Rendering failed: ' + err.message;
+                status.textContent = 'Rendering failed: ' + (err.message || 'Unknown error');
                 status.className = 'diagram-status error';
             });
         }
+        
+        // Store original diagram text on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const diagram = document.getElementById('mermaid-diagram');
+            if (diagram && !diagram.getAttribute('data-diagram')) {
+                diagram.setAttribute('data-diagram', diagram.textContent);
+            }
+        });
     </script>
 </body>
 </html>
