@@ -13,53 +13,637 @@
     <!-- Favicon -->
     <link rel="icon" type="image/webp" href="../helmet-logo.webp">
     
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000000;
+            color: #00ff00;
+            font-family: 'Courier New', 'JetBrains Mono', monospace;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1a1a1a;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2a2a2a;
+        }
+
+        /* Sidebar */
+        aside {
+            width: 256px;
+            background: #0a0a0a;
+            border-right: 1px solid #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .logo-section {
+            height: 64px;
+            border-bottom: 1px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+        }
+
+        .logo-section h1 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00ff00;
+            letter-spacing: 0.1em;
+        }
+
+        nav {
+            flex: 1;
+            padding: 16px 0;
+        }
+
+        nav button, nav a {
+            width: 100%;
+            padding: 12px 24px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 500;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: block;
+            text-decoration: none;
+            letter-spacing: 0.1em;
+        }
+
+        nav button:hover, nav a:hover {
+            color: #00ff00;
+            background: #0f0f0f;
+        }
+
+        nav button.active {
+            background: #1a1a1a;
+            color: #00ff00;
+            border-left: 2px solid #00ff00;
+        }
+
+        .status-footer {
+            height: 64px;
+            border-top: 1px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff00;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .status-text {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #000000;
+        }
+
+        .header-bar {
+            height: 48px;
+            border-bottom: 1px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            background: #0a0a0a;
+        }
+
+        .mode-selector {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .mode-label {
+            font-size: 12px;
+            color: #666;
+            letter-spacing: 0.1em;
+        }
+
+        .mode-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .mode-button {
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            background: #1a1a1a;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mode-button:hover {
+            color: #00ff00;
+        }
+
+        .mode-button.active {
+            background: #00ff00;
+            color: #000000;
+        }
+
+        .verification-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .verification-label {
+            font-size: 12px;
+            color: #666;
+            letter-spacing: 0.1em;
+        }
+
+        .verification-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .verification-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ffaa00;
+        }
+
+        .verification-dot.verified {
+            background: #00ff00;
+            animation: pulse 2s infinite;
+        }
+
+        .verification-dot.rejected {
+            background: #ff0000;
+        }
+
+        .verification-text {
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            color: #ffaa00;
+        }
+
+        .verification-text.verified {
+            color: #00ff00;
+        }
+
+        .verification-text.rejected {
+            color: #ff0000;
+        }
+
+        /* Terminal */
+        .terminal-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            background: #000000;
+        }
+
+        .terminal-window {
+            flex: 1;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 2px;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .terminal-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 14px;
+        }
+
+        .terminal-line {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .terminal-prefix {
+            color: #666;
+            flex-shrink: 0;
+        }
+
+        .terminal-text {
+            flex: 1;
+        }
+
+        .terminal-line.system {
+            color: #666;
+        }
+
+        .terminal-line.user {
+            color: #4a9eff;
+        }
+
+        .terminal-line.response {
+            color: #00ff00;
+        }
+
+        .terminal-line.error {
+            color: #ff0000;
+        }
+
+        /* Input Area */
+        .input-area {
+            margin-top: 16px;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-prompt {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .input-field {
+            flex: 1;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            color: #00ff00;
+            padding: 8px 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: #00ff00;
+            box-shadow: 0 0 0 1px #00ff00;
+        }
+
+        .input-field::placeholder {
+            color: #444;
+        }
+
+        .exec-button {
+            padding: 8px 16px;
+            background: #1a1a1a;
+            border: 1px solid #1a1a1a;
+            color: #00ff00;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .exec-button:hover {
+            background: #0f0f0f;
+            border-color: #00ff00;
+        }
+
+        .exec-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* SQL Guard Mode */
+        .sql-config {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .config-label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+            letter-spacing: 0.1em;
+        }
+
+        .config-textarea {
+            width: 100%;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            color: #00ff00;
+            padding: 8px 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            outline: none;
+            resize: none;
+        }
+
+        .config-textarea:focus {
+            border-color: #00ff00;
+            box-shadow: 0 0 0 1px #00ff00;
+        }
+
+        .config-textarea::placeholder {
+            color: #444;
+        }
+
+        .analyze-button {
+            align-self: flex-end;
+            padding: 8px 16px;
+            background: #1a1a1a;
+            border: 1px solid #1a1a1a;
+            color: #00ff00;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .analyze-button:hover {
+            background: #0f0f0f;
+            border-color: #00ff00;
+        }
+
+        .analyze-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 <body>
-    <div class="bg-grid"></div>
-    <div class="container">
-        <header class="header">
-            <h1>AI Governance Console</h1>
-            <p class="subtitle">Enterprise AI Governance and Compliance Management</p>
-        </header>
-
-        <main class="main-content">
-            <section class="section">
-                <h2>Overview</h2>
-                <p>The AI Governance Console provides comprehensive tools for managing AI governance, compliance, and risk across your enterprise AI initiatives.</p>
-            </section>
-
-            <section class="section">
-                <h2>Features</h2>
-                <ul>
-                    <li>AI Model Registry and Inventory</li>
-                    <li>Compliance Monitoring and Reporting</li>
-                    <li>Risk Assessment and Mitigation</li>
-                    <li>Policy Management and Enforcement</li>
-                    <li>Audit Trails and Documentation</li>
-                </ul>
-            </section>
-
-            <section class="section">
-                <h2>Get Started</h2>
-                <p>For more information about the AI Governance Console, please contact us.</p>
-                <p><a href="mailto:contact@sentineldataai.com">Contact Us</a></p>
-            </section>
-        </main>
-
-        <footer class="footer">
-            <div class="footer-brand">
-                <img src="../helmet-logo.webp" alt="Sentinel Data and AI Consulting" style="width:1.2rem;height:1.2rem;object-fit:contain;vertical-align:middle;">
-                <div>Sentinel Data and AI Consulting</div>
+    <!-- Sidebar -->
+    <aside>
+        <div class="logo-section">
+            <h1>AI GOV</h1>
+        </div>
+        <nav>
+            <button class="active">AGENTS</button>
+            <button>LOGS</button>
+            <button>SETTINGS</button>
+            <a href="/architecture">ARCHITECTURE</a>
+        </nav>
+        <div class="status-footer">
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span class="status-text">SYSTEM ONLINE</span>
             </div>
-            <p>Enterprise AI Governance | IBM DB2 | watsonx Integration</p>
-            <p style="margin-top: 0.5rem;">
-                <a href="mailto:contact@sentineldataai.com">Contact</a> · 
-                <a href="https://sentineldataai.com">sentineldataai.com</a> ·
-                <a href="https://sentineldataai.com/datasentinel-demo">DataSentinel Demo</a>
-            </p>
-        </footer>
-    </div>
+        </div>
+    </aside>
+
+    <!-- Main Terminal Area -->
+    <main>
+        <!-- Mode Selector and Verification Status -->
+        <div class="header-bar">
+            <div class="mode-selector">
+                <span class="mode-label">MODE:</span>
+                <div class="mode-buttons">
+                    <button class="mode-button active" onclick="setMode('ai-chat')">AI CHAT</button>
+                    <button class="mode-button" onclick="setMode('sql-guard')">SQL GUARD</button>
+                </div>
+            </div>
+            <div class="verification-status">
+                <span class="verification-label">VERIFICATION STATUS:</span>
+                <div class="verification-indicator">
+                    <div class="verification-dot" id="verification-dot"></div>
+                    <span class="verification-text" id="verification-text">UNVERIFIED</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terminal Window -->
+        <div class="terminal-container">
+            <div class="terminal-window">
+                <div class="terminal-content" id="terminal-content">
+                    <div class="terminal-line system">
+                        <span class="terminal-prefix">$</span>
+                        <span class="terminal-text">AI Governance Console v1.0.0</span>
+                    </div>
+                    <div class="terminal-line system">
+                        <span class="terminal-prefix">$</span>
+                        <span class="terminal-text">System initialized. Ready for commands.</span>
+                    </div>
+                    <div class="terminal-line system">
+                        <span class="terminal-prefix">$</span>
+                        <span class="terminal-text" id="mode-message">AI Chat mode: Type your query and press ENTER or click EXEC to send.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area - AI Chat Mode -->
+            <div class="input-area" id="ai-chat-input">
+                <div class="input-row">
+                    <span class="input-prompt">$</span>
+                    <input 
+                        type="text" 
+                        class="input-field" 
+                        id="terminal-input"
+                        placeholder="Enter query..."
+                        onkeydown="handleKeyDown(event)"
+                    />
+                    <button class="exec-button" onclick="handleSubmit()" id="exec-button">EXEC</button>
+                </div>
+            </div>
+
+            <!-- Input Area - SQL Guard Mode -->
+            <div class="input-area" id="sql-guard-input" style="display: none;">
+                <div class="sql-config">
+                    <div>
+                        <label class="config-label">PRIMARY KEY MAPPING (JSON):</label>
+                        <textarea 
+                            class="config-textarea" 
+                            id="pk-mapping"
+                            rows="4"
+                            placeholder='{"customers": ["id"], "orders": ["order_id", "line_id"], "users": ["user_id", "tenant_id"]}'
+                        >{"customers": ["id"], "orders": ["order_id", "line_id"], "users": ["user_id", "tenant_id"]}</textarea>
+                    </div>
+                    <div>
+                        <label class="config-label">SQL UPDATE STATEMENTS (one per line, separated by semicolons):</label>
+                        <textarea 
+                            class="config-textarea" 
+                            id="sql-statements"
+                            rows="6"
+                            placeholder="UPDATE customers SET name = 'John' WHERE id = 123;&#10;UPDATE customers SET name = 'John' WHERE name = 'Jane';"
+                        >UPDATE customers SET name = 'John' WHERE id = 123;
+UPDATE customers SET name = 'John' WHERE name = 'Jane';</textarea>
+                    </div>
+                    <div>
+                        <button class="analyze-button" onclick="handleSqlAnalyze()" id="analyze-button">ANALYZE SQL</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentMode = 'ai-chat';
+
+        function setMode(mode) {
+            currentMode = mode;
+            
+            // Update mode buttons
+            document.querySelectorAll('.mode-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update input areas
+            if (mode === 'ai-chat') {
+                document.getElementById('ai-chat-input').style.display = 'block';
+                document.getElementById('sql-guard-input').style.display = 'none';
+                document.getElementById('mode-message').textContent = 'AI Chat mode: Type your query and press ENTER or click EXEC to send.';
+            } else {
+                document.getElementById('ai-chat-input').style.display = 'none';
+                document.getElementById('sql-guard-input').style.display = 'block';
+                document.getElementById('mode-message').textContent = 'SQL Guard mode: Configure PK mapping and SQL statements, then click ANALYZE SQL.';
+            }
+        }
+
+        function addTerminalMessage(type, content) {
+            const terminal = document.getElementById('terminal-content');
+            const line = document.createElement('div');
+            line.className = `terminal-line ${type}`;
+            
+            let prefix = '$';
+            if (type === 'user') prefix = '>';
+            else if (type === 'response') prefix = '✓';
+            else if (type === 'error') prefix = '✗';
+            
+            line.innerHTML = `<span class="terminal-prefix">${prefix}</span><span class="terminal-text">${content}</span>`;
+            terminal.appendChild(line);
+            
+            // Auto-scroll
+            terminal.parentElement.scrollTop = terminal.parentElement.scrollHeight;
+        }
+
+        function handleKeyDown(event) {
+            if (event.key === 'Enter' && currentMode === 'ai-chat') {
+                handleSubmit();
+            }
+        }
+
+        function handleSubmit() {
+            const input = document.getElementById('terminal-input');
+            const query = input.value.trim();
+            
+            if (!query) return;
+            
+            // Add user message
+            addTerminalMessage('user', query);
+            input.value = '';
+            
+            // Add processing message
+            addTerminalMessage('system', 'Processing query...');
+            
+            // Note: This is a static demo. In production, this would call the API.
+            setTimeout(() => {
+                // Remove processing message
+                const terminal = document.getElementById('terminal-content');
+                terminal.removeChild(terminal.lastChild);
+                
+                // Add response (demo)
+                addTerminalMessage('response', 'This is a static demo of the AI Governance Console. The full interactive version with API integration is available at the Next.js application running on localhost:3000.');
+                addTerminalMessage('system', '[DEMO] This page demonstrates the UI. For full functionality, please use the Next.js application.');
+                
+                // Update verification status
+                updateVerificationStatus('unverified');
+            }, 1000);
+        }
+
+        function handleSqlAnalyze() {
+            const pkMapping = document.getElementById('pk-mapping').value;
+            const sqlStatements = document.getElementById('sql-statements').value;
+            
+            if (!sqlStatements.trim()) return;
+            
+            // Add user message
+            const statements = sqlStatements.split(';').filter(s => s.trim()).length;
+            addTerminalMessage('user', `Analyzing ${statements} SQL UPDATE statement(s)...`);
+            addTerminalMessage('system', 'Processing SQL Guard analysis...');
+            
+            // Note: This is a static demo. In production, this would call the API.
+            setTimeout(() => {
+                // Remove processing message
+                const terminal = document.getElementById('terminal-content');
+                terminal.removeChild(terminal.lastChild);
+                
+                // Add response (demo)
+                addTerminalMessage('system', 'Analysis complete: 1 safe, 1 unsafe');
+                addTerminalMessage('response', 'SAFE: UPDATE customers SET name = \'John\' WHERE id = 123;');
+                addTerminalMessage('system', '  → This statement includes a primary key in the WHERE clause.');
+                addTerminalMessage('error', 'UNSAFE: UPDATE customers SET name = \'John\' WHERE name = \'Jane\';');
+                addTerminalMessage('system', '  → This statement does not include a primary key in the WHERE clause.');
+                
+                // Update verification status
+                updateVerificationStatus('rejected');
+            }, 1000);
+        }
+
+        function updateVerificationStatus(status) {
+            const dot = document.getElementById('verification-dot');
+            const text = document.getElementById('verification-text');
+            
+            dot.className = 'verification-dot';
+            text.className = 'verification-text';
+            
+            if (status === 'verified') {
+                dot.classList.add('verified');
+                text.classList.add('verified');
+                text.textContent = 'VERIFIED';
+            } else if (status === 'rejected') {
+                dot.classList.add('rejected');
+                text.classList.add('rejected');
+                text.textContent = 'REJECTED';
+            } else {
+                text.textContent = 'UNVERIFIED';
+            }
+        }
+    </script>
 </body>
 </html>
