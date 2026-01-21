@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Governance Architecture | Sentinel Data and AI Consulting</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="AI Governance Control Plane Architecture - Policy-enforced triage, deterministic enforcement, and comprehensive audit logging.">
+    <meta name="keywords" content="AI governance, architecture, control plane, policy enforcement, NIST RMF, EU AI Act">
+    <meta name="author" content="Sentinel Data and AI Consulting">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="../helmet-logo.webp">
+    
+    <!-- Mermaid.js -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            securityLevel: 'strict',
+            theme: 'dark',
+            themeVariables: {
+                primaryColor: '#10b981',
+                primaryTextColor: '#10b981',
+                primaryBorderColor: '#059669',
+                lineColor: '#3b82f6',
+                secondaryColor: '#1a1a1a',
+                tertiaryColor: '#0a0a0a',
+                background: '#000000',
+                mainBkg: '#0a0a0a',
+                secondBkg: '#1a1a1a',
+                textColor: '#e5e7eb',
+                edgeLabelBackground: '#000000',
+                clusterBkg: '#1a1a1a',
+                clusterBorder: '#f59e0b',
+                defaultLinkColor: '#3b82f6',
+                titleColor: '#fbbf24',
+                taskTextFontSize: '20px',
+                taskTextFontFamily: 'monospace',
+                fontSize: '16px',
+                fontFamily: 'monospace',
+            },
+            flowchart: {
+                curve: 'basis',
+                padding: 20,
+                nodeSpacing: 50,
+                rankSpacing: 80,
+                useMaxWidth: true,
+                htmlLabels: true,
+                fontSize: 16,
+                fontFamily: 'monospace',
+            },
+        });
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000000;
+            color: #e5e7eb;
+            font-family: 'Courier New', 'JetBrains Mono', monospace;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            border-bottom: 1px solid #1f2937;
+            background: rgba(17, 24, 39, 0.5);
+            padding: 16px 24px;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.1);
+        }
+
+        .header-content {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #10b981;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+        }
+
+        header p {
+            font-size: 14px;
+            color: rgba(34, 211, 238, 0.8);
+        }
+
+        .back-button {
+            padding: 8px 16px;
+            border: 1px solid #374151;
+            background: transparent;
+            color: #e5e7eb;
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 0.1em;
+            transition: all 0.2s;
+            border-radius: 4px;
+        }
+
+        .back-button:hover {
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* Description Section */
+        .description {
+            margin-bottom: 32px;
+            padding: 24px;
+            background: rgba(17, 24, 39, 0.5);
+            border: 1px solid #1f2937;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(139, 92, 246, 0.05);
+        }
+
+        .description h2 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #10b981;
+            margin-bottom: 16px;
+            letter-spacing: 0.1em;
+        }
+
+        .description p {
+            color: #9ca3af;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .path-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .path-card {
+            padding: 12px;
+            background: #000000;
+            border: 1px solid;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .path-card.allowed {
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .path-card.enforcement {
+            border-color: rgba(245, 158, 11, 0.5);
+        }
+
+        .path-card.rejection {
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
+        .path-card.audit {
+            border-color: rgba(6, 182, 212, 0.5);
+            border-style: dashed;
+        }
+
+        .path-card-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .path-card.allowed .path-card-title {
+            color: #10b981;
+        }
+
+        .path-card.enforcement .path-card-title {
+            color: #fbbf24;
+        }
+
+        .path-card.rejection .path-card-title {
+            color: #f87171;
+        }
+
+        .path-card.audit .path-card-title {
+            color: #22d3ee;
+        }
+
+        .path-card-content {
+            color: #6b7280;
+        }
+
+        /* Diagram Container */
+        .diagram-container {
+            background: rgba(17, 24, 39, 0.3);
+            border: 1px solid #1f2937;
+            padding: 32px;
+            border-radius: 8px;
+            min-height: 480px;
+            overflow: auto;
+            margin-bottom: 16px;
+        }
+
+        .diagram-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .diagram-status {
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        .diagram-status.rendering {
+            color: #22d3ee;
+        }
+
+        .diagram-status.success {
+            color: #10b981;
+        }
+
+        .diagram-status.error {
+            color: #f87171;
+        }
+
+        .rerender-button {
+            padding: 8px 16px;
+            background: #1f2937;
+            border: 1px solid #374151;
+            color: #e5e7eb;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .rerender-button:hover:not(:disabled) {
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        .rerender-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Legend */
+        .legend {
+            margin-top: 16px;
+            margin-bottom: 32px;
+            padding: 24px;
+            background: rgba(17, 24, 39, 0.5);
+            border: 1px solid #1f2937;
+            border-radius: 8px;
+        }
+
+        .legend h3 {
+            font-size: 12px;
+            font-weight: bold;
+            color: #fbbf24;
+            margin-bottom: 16px;
+            letter-spacing: 0.1em;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            font-size: 10px;
+        }
+
+        .legend-section {
+            color: #9ca3af;
+        }
+
+        .legend-section-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color-box {
+            width: 16px;
+            height: 16px;
+            border: 2px solid;
+            background: #000000;
+            border-radius: 2px;
+        }
+
+        .legend-section.allowed .legend-color-box {
+            border-color: #10b981;
+        }
+
+        .legend-section.enforcement .legend-color-box {
+            border-color: #fbbf24;
+        }
+
+        .legend-section.rejection .legend-color-box {
+            border-color: #f87171;
+        }
+
+        .legend-section.ai .legend-color-box {
+            border-color: #a78bfa;
+        }
+
+        .legend-section.logging .legend-color-box {
+            border-color: #22d3ee;
+        }
+
+        .legend-section.neutral .legend-color-box {
+            border-color: #9ca3af;
+        }
+
+        .legend-section.blue .legend-color-box {
+            border-color: #60a5fa;
+        }
+
+        .legend-section.allowed .legend-section-title {
+            color: #10b981;
+        }
+
+        .legend-section.enforcement .legend-section-title {
+            color: #fbbf24;
+        }
+
+        .legend-section.rejection .legend-section-title {
+            color: #f87171;
+        }
+
+        .legend-section.ai .legend-section-title {
+            color: #a78bfa;
+        }
+
+        .legend-section.logging .legend-section-title {
+            color: #22d3ee;
+        }
+
+        .legend-section.blue .legend-section-title {
+            color: #60a5fa;
+        }
+
+        .legend-items {
+            margin-left: 24px;
+            margin-top: 4px;
+        }
+
+        .legend-item {
+            margin-bottom: 4px;
+        }
+
+        .legend-item strong {
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #1f2937;
+            background: rgba(17, 24, 39, 0.5);
+            padding: 16px 24px;
+            margin-top: 48px;
+            margin-bottom: 32px;
+        }
+
+        .footer-content {
+            max-width: 1800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 9px;
+            color: #6b7280;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .path-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .legend-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div>
+                <h1>AI GOVERNANCE ARCHITECTURE</h1>
+                <p>Governance Control Plane</p>
+            </div>
+            <a href="/ai-governance-console/" class="back-button">← BACK TO CONSOLE</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Description -->
+        <div class="description">
+            <h2>SYSTEM ARCHITECTURE OVERVIEW</h2>
+            <p>
+                This diagram illustrates the AI Governance Control Plane architecture. All user requests flow through policy-enforced triage,
+                deterministic enforcement, and comprehensive audit logging. The governance layer ensures compliance with NIST AI Risk Management
+                Framework and EU AI Act principles while maintaining advisory-only AI responses that do not claim authority or guarantee outcomes.
+            </p>
+            <div class="path-grid">
+                <div class="path-card allowed">
+                    <div class="path-card-title">ALLOWED PATH</div>
+                    <div class="path-card-content">
+                        <span style="color: #10b981;">Allowed</span> → <span style="color: #a78bfa;">AI Model</span> → <span style="color: #10b981;">Safe Completion</span>
+                    </div>
+                </div>
+                <div class="path-card enforcement">
+                    <div class="path-card-title">ENFORCEMENT PATH</div>
+                    <div class="path-card-content">
+                        <span style="color: #fbbf24;">Ambiguous</span> → <span style="color: #fbbf24;">Policy Enforcement</span> → <span style="color: #a78bfa;">AI Model</span>
+                    </div>
+                </div>
+                <div class="path-card rejection">
+                    <div class="path-card-title">REJECTION PATH</div>
+                    <div class="path-card-content">
+                        <span style="color: #f87171;">Disallowed</span> → <span style="color: #f87171;">Rejection Handler</span> → <span style="color: #10b981;">Response</span>
+                    </div>
+                </div>
+                <div class="path-card audit">
+                    <div class="path-card-title">AUDIT & LOGGING</div>
+                    <div class="path-card-content">
+                        <span style="color: #22d3ee;">All components</span> → <span style="color: #22d3ee;">Audit & Logging</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diagram Controls -->
+        <div class="diagram-controls">
+            <div class="diagram-status success" id="diagram-status">Diagram rendered successfully</div>
+            <button class="rerender-button" onclick="rerenderDiagram()" id="rerender-button">Re-render Diagram</button>
+        </div>
+
+        <!-- Mermaid Diagram Container -->
+        <div class="diagram-container">
+            <div class="mermaid" id="mermaid-diagram">
+flowchart LR
+  %% =========================================================
+  %% TITLE: AI Governance Control Plane
+  %% =========================================================
+
+  U[User] --> UI[User Interface]
+
+  %% -------------------------
+  %% GOVERNANCE CONTROL PLANE NODES
+  %% -------------------------
+  RC["Risk & Capability Classifier\n(pre-generation triage)"]
+  PR[("Policy & Rules Repository\n(NIST RMF + EU Act principles + Org Policy)")]
+  PE["Policy Enforcement Layer\n(Deterministic)"]
+  HR["Human Reviewer\n(Optional escalation)"]
+  SC["Safe Completion / Reframing\n(Language & Claims Filter)"]
+  RH["Rejection Handler\n(Terminal)"]
+  AL[("Audit & Logging\n(Always-on flight recorder)")]
+  LLM["⚠️ Frontier AI Model\n(Advisory Only)"]
+  OUT["Annotated Response to UI"]
+
+  %% -------------------------
+  %% GOVERNANCE CONTROL PLANE SUBGRAPH (visual grouping)
+  %% -------------------------
+  subgraph GOV[AI Governance Control Plane - Policy-Enforced]
+    RC
+    PR
+    PE
+    HR
+    SC
+    RH
+    AL
+  end
+
+  %% -------------------------
+  %% MAIN GOVERNANCE FLOW (Control/Decision - Solid Lines)
+  %% -------------------------
+  UI -->|User Request| RC
+  
+  %% Policy lookups (Data/Reference - Dashed Lines)
+  RC -.->|Policy Lookup| PR
+  PR -.->|Controls / thresholds / policy version| PE
+
+  %% Decision routing (Control - Solid Lines)
+  RC -->|Allowed: informational| LLM
+  RC -->|Ambiguous / risky| PE
+  RC -->|Disallowed| RH
+
+  %% Enforcement outcomes (Control - Solid Lines)
+  PE -->|Proceed w/ constraints| LLM
+  PE -->|Escalate| HR
+  HR -->|Approve / Deny / Modify constraints| PE
+  PE -->|Hard reject| RH
+
+  %% Post-generation safety (Control - Solid Lines)
+  LLM --> SC --> OUT
+  RH -->|Rejected response + rationale| OUT
+  OUT -->|Annotated Response| UI
+
+  %% Logging (Telemetry - Dotted Lines via linkStyle)
+  RC -.->|Logging| AL
+  PE -.->|Logging| AL
+  HR -.->|Logging| AL
+  SC -.->|Logging| AL
+  RH -.->|Logging| AL
+  LLM -.->|Logging| AL
+  OUT -.->|Logging| AL
+
+  %% -------------------------
+  %% STYLING: Node Colors by Role
+  %% -------------------------
+  classDef allowedClass fill:#0a0a0a,stroke:#10b981,stroke-width:3px,color:#10b981
+  classDef enforcementClass fill:#0a0a0a,stroke:#f59e0b,stroke-width:3px,color:#fbbf24
+  classDef rejectionClass fill:#0a0a0a,stroke:#ef4444,stroke-width:3px,color:#f87171
+  classDef aiClass fill:#0a0a0a,stroke:#8b5cf6,stroke-width:3px,color:#a78bfa
+  classDef loggingClass fill:#0a0a0a,stroke:#06b6d4,stroke-width:3px,color:#22d3ee
+  classDef neutralClass fill:#0a0a0a,stroke:#6b7280,stroke-width:2px,color:#9ca3af
+
+  %% Apply classes
+  class U,UI,OUT allowedClass
+  class RC,PE,HR enforcementClass
+  class RH rejectionClass
+  class LLM aiClass
+  class AL loggingClass
+  class PR neutralClass
+  class SC allowedClass
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <h3>LEGEND</h3>
+            <div class="legend-grid">
+                <!-- Node Colors / Roles -->
+                <div class="legend-section allowed">
+                    <div class="legend-section-title">
+                        <div class="legend-color-box"></div>
+                        NODE COLORS / ROLES
+                    </div>
+                    <div class="legend-items">
+                        <div class="legend-item">• <strong style="color: #10b981;">Green border</strong> - Allowed path (User, UI, Safe Completion, Annotated Response)</div>
+                        <div class="legend-item">• <strong style="color: #fbbf24;">Amber border</strong> - Enforcement / ambiguous-risk handling (Risk Classifier, Policy Enforcement, Human Reviewer)</div>
+                        <div class="legend-item">• <strong style="color: #f87171;">Red border</strong> - Rejection / disallowed (Rejection Handler)</div>
+                        <div class="legend-item">• <strong style="color: #a78bfa;">Violet border</strong> - AI model (Advisory only)</div>
+                        <div class="legend-item">• <strong style="color: #22d3ee;">Cyan border</strong> - Audit & logging</div>
+                        <div class="legend-item">• <strong style="color: #9ca3af;">Gray border</strong> - Neutral system components (Policy Repository)</div>
+                    </div>
+                </div>
+                <!-- Line Styles -->
+                <div class="legend-section blue">
+                    <div class="legend-section-title">
+                        <div class="legend-color-box"></div>
+                        LINE STYLES
+                    </div>
+                    <div class="legend-items">
+                        <div class="legend-item">• <strong style="color: #60a5fa;">Solid line</strong> - Control/decision flow</div>
+                        <div class="legend-item">• <strong style="color: #fbbf24;">Dashed line</strong> - Data/reference flow (policy lookup, policy feed)</div>
+                        <div class="legend-item">• <strong style="color: #22d3ee;">Dotted line</strong> - Telemetry/logging (thinner, dotted pattern)</div>
+                    </div>
+                </div>
+                <!-- Core System Components -->
+                <div class="legend-section logging">
+                    <div class="legend-section-title">
+                        <div class="legend-color-box"></div>
+                        CORE SYSTEM COMPONENTS
+                    </div>
+                    <div class="legend-items">
+                        <div class="legend-item">• <strong style="color: #10b981;">User Interface</strong> - Entry point for user requests</div>
+                        <div class="legend-item">• <strong style="color: #fbbf24;">Risk & Capability Classifier</strong> - Pre-generation triage (Allowed / Ambiguous / Disallowed)</div>
+                        <div class="legend-item">• <strong style="color: #a78bfa;">Frontier AI Model</strong> - <strong style="color: #fbbf24;">Advisory Only</strong></div>
+                        <div class="legend-item">• <strong style="color: #10b981;">Safe Completion / Reframing</strong> - Language & Claims Filter</div>
+                        <div class="legend-item">• <strong style="color: #10b981;">Annotated Response to UI</strong> - Final output with tags (Informational, Hypothetical, Non-actionable)</div>
+                    </div>
+                </div>
+                <!-- Enforcement & Rejection -->
+                <div class="legend-section rejection">
+                    <div class="legend-section-title">
+                        <div class="legend-color-box"></div>
+                        ENFORCEMENT & REJECTION
+                    </div>
+                    <div class="legend-items">
+                        <div class="legend-item">• <strong style="color: #fbbf24;">Policy Enforcement Layer</strong> - Deterministic rule application</div>
+                        <div class="legend-item">• <strong style="color: #10b981;">Human Reviewer</strong> - Optional escalation point; can approve/deny/modify constraints</div>
+                        <div class="legend-item">• <strong style="color: #f87171;">Rejection Handler</strong> - Terminal rejection; returns rejected response + rationale to UI</div>
+                        <div class="legend-item">• <strong style="color: #9ca3af;">Policy & Rules Repository</strong> - Feeds both classifier (lookup) and enforcement (controls/thresholds)</div>
+                    </div>
+                </div>
+            </div>
+            <div style="border-top: 1px solid #1f2937; padding-top: 16px; margin-top: 8px; grid-column: 1 / -1;">
+                <div style="color: #fbbf24; font-weight: bold; margin-bottom: 8px; font-size: 10px;">⚠️ ADVISORY ONLY</div>
+                <div style="color: #9ca3af; font-size: 10px; margin-left: 24px;">
+                    <strong style="color: #fbbf24;">Advisory only:</strong> The model cannot approve/deny, cannot guarantee outcomes, and cannot bypass policy enforcement.
+                </div>
+            </div>
+            <div style="border-top: 1px solid #1f2937; padding-top: 16px; margin-top: 8px; grid-column: 1 / -1;">
+                <div style="color: #60a5fa; font-weight: bold; margin-bottom: 8px;">DECISION PATHS</div>
+                <div style="color: #9ca3af; margin-left: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 8px;">
+                    <div>• <strong style="color: #10b981;">Allowed: informational</strong> → Direct to AI Model (bypasses "Proceed w/ constraints")</div>
+                    <div>• <strong style="color: #fbbf24;">Ambiguous / risky</strong> → Policy Enforcement Layer → "Proceed w/ constraints" → AI Model</div>
+                    <div>• <strong style="color: #f87171;">Disallowed</strong> → Rejection Handler → Rejected response to UI</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>AI Governance Console v1.0.0 | AI Governance Architecture</div>
+            <div style="margin-top: 4px; color: #4b5563;">Source of truth: Mermaid definition (versionable)</div>
+        </div>
+    </footer>
+
+    <script>
+        function rerenderDiagram() {
+            const button = document.getElementById('rerender-button');
+            const status = document.getElementById('diagram-status');
+            const diagram = document.getElementById('mermaid-diagram');
+            
+            button.disabled = true;
+            status.textContent = 'Rendering diagram...';
+            status.className = 'diagram-status rendering';
+            
+            // Clear and re-render
+            diagram.innerHTML = diagram.textContent;
+            
+            // Re-initialize Mermaid
+            import('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs').then(mermaid => {
+                mermaid.default.initialize({ 
+                    startOnLoad: true,
+                    securityLevel: 'strict',
+                    theme: 'dark',
+                    themeVariables: {
+                        primaryColor: '#10b981',
+                        primaryTextColor: '#10b981',
+                        primaryBorderColor: '#059669',
+                        lineColor: '#3b82f6',
+                        secondaryColor: '#1a1a1a',
+                        tertiaryColor: '#0a0a0a',
+                        background: '#000000',
+                        mainBkg: '#0a0a0a',
+                        secondBkg: '#1a1a1a',
+                        textColor: '#e5e7eb',
+                        edgeLabelBackground: '#000000',
+                        clusterBkg: '#1a1a1a',
+                        clusterBorder: '#f59e0b',
+                        defaultLinkColor: '#3b82f6',
+                        titleColor: '#fbbf24',
+                        taskTextFontSize: '20px',
+                        taskTextFontFamily: 'monospace',
+                        fontSize: '16px',
+                        fontFamily: 'monospace',
+                    },
+                    flowchart: {
+                        curve: 'basis',
+                        padding: 20,
+                        nodeSpacing: 50,
+                        rankSpacing: 80,
+                        useMaxWidth: true,
+                        htmlLabels: true,
+                        fontSize: 16,
+                        fontFamily: 'monospace',
+                    },
+                });
+                
+                mermaid.default.run();
+                
+                setTimeout(() => {
+                    button.disabled = false;
+                    status.textContent = 'Diagram rendered successfully';
+                    status.className = 'diagram-status success';
+                }, 1000);
+            }).catch(err => {
+                button.disabled = false;
+                status.textContent = 'Rendering failed: ' + err.message;
+                status.className = 'diagram-status error';
+            });
+        }
+    </script>
+</body>
+</html>
