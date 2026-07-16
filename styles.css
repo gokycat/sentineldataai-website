@@ -484,6 +484,18 @@ body {
     box-shadow: none;
 }
 
+.btn.green {
+    background: var(--accent-green);
+    color: var(--bg-dark);
+    text-decoration: none;
+}
+
+.btn.green:hover {
+    background: #4cc764;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px var(--glow-green);
+}
+
 /* Speed control */
 .speed-control {
     display: flex;
