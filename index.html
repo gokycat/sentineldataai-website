@@ -5,105 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DataSentinel | Intelligent Database Governance</title>
 
-    <meta name="description" content="DataSentinel: fail-closed AI governance for IBM Db2. Try the interactive demo — evaluate SQL against policy before it reaches your systems of record.">
-    <meta name="keywords" content="DataSentinel, database governance, DB2, AI safety, SQL policy, watsonx, enterprise AI">
+    <meta name="description" content="DataSentinel delivers fail-closed AI governance for Db2 and enterprise data platforms. Evaluate SQL against policy before it reaches your systems of record.">
+    <meta name="keywords" content="DataSentinel, database governance, Db2, AI safety, SQL policy, enterprise AI, fail-closed">
     <meta name="author" content="Sentinel Data and AI Consulting">
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="DataSentinel | Intelligent Database Governance">
-    <meta property="og:description" content="AI advises, rules decide. Try the interactive SQL governance demo.">
+    <meta property="og:description" content="AI advises, rules decide. Evaluate SQL against enterprise policy before execution.">
     <meta property="og:url" content="https://sentineldataai.com">
 
     <link rel="icon" type="image/webp" href="helmet-logo.webp">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="bg-grid"></div>
 
     <div class="container container-wide">
-        <header class="header">
+        <header class="site-header">
             <div class="logo">
                 <img src="helmet-logo.webp" alt="DataSentinel" class="logo-img">
                 <span class="logo-text">DataSentinel</span>
             </div>
-            <p class="tagline">Intelligent Database Governance | <span>AI advises, Rules decide</span></p>
+            <p class="site-tagline">Intelligent database governance</p>
+            <p class="site-principle">AI advises, rules decide</p>
         </header>
 
         <section class="hero-card">
-            <p class="eyebrow">IBM Db2 · watsonx · Fail-closed by design</p>
-            <h1 class="hero-title">Governance at the gateway — before SQL hits production</h1>
+            <p class="eyebrow">Enterprise Db2 · Fail-closed by design</p>
+            <h1 class="hero-title">Governance at the gateway, before SQL reaches production</h1>
             <p class="hero-lead">
-                DataSentinel sits between users, agents, and your Db2 systems of record.
-                Probabilistic models interpret intent; deterministic rules enforce policy,
-                audit every decision, and block what should never run.
+                DataSentinel sits between users, agents, and your systems of record.
+                Models interpret intent; deterministic policy enforces access, records
+                every decision, and blocks queries that should not run.
             </p>
             <div class="hero-cta">
                 <a class="btn btn-primary-lg" href="https://demo.sentineldataai.com/web_demo.html" target="_blank" rel="noopener noreferrer">
-                    <span>🛡️</span> Interactive Demo
+                    Interactive Demo
                 </a>
-                <p class="cta-note">Live SQL evaluation · no install · runs in your browser</p>
+                <p class="cta-note">Live SQL policy evaluation in your browser — no installation required</p>
             </div>
         </section>
 
-        <section class="stage-section">
-            <h2 class="section-heading">What the Interactive Demo does</h2>
-            <p class="section-intro">
-                The demo is a working governance gateway — not a slide deck. You submit real SQL,
-                DataSentinel evaluates it against policy, and you see exactly what would happen
-                in production: allow, deny, or auto-remediate.
-            </p>
+        <section class="content-section">
+            <header class="section-header">
+                <h2>What the interactive demo shows</h2>
+                <p class="section-lead">
+                    A working governance gateway, not a static walkthrough. Submit SQL,
+                    review the policy outcome, and see the same allow, deny, or
+                    auto-remediation behavior you would get in production.
+                </p>
+            </header>
 
             <div class="stage-grid">
                 <article class="stage-card">
-                    <span class="stage-num">1</span>
+                    <span class="stage-num">01</span>
                     <h3>Submit a query</h3>
-                    <p>Enter SQL as a user or agent would — SELECTs against Db2 tables, with optional user context.</p>
+                    <p>Enter SQL as a user or agent would, including table access and optional user context.</p>
                 </article>
                 <article class="stage-card">
-                    <span class="stage-num">2</span>
-                    <h3>Policy evaluation</h3>
-                    <p>Deterministic rules check for PII exposure, destructive ops, missing WHERE clauses, SELECT *, and more.</p>
+                    <span class="stage-num">02</span>
+                    <h3>Evaluate policy</h3>
+                    <p>Rules inspect PII exposure, destructive operations, missing predicates, unrestricted selects, and related risk patterns.</p>
                 </article>
                 <article class="stage-card">
-                    <span class="stage-num">3</span>
-                    <h3>Fail-closed decision</h3>
-                    <p>Each query gets an explicit ALLOW or DENY with the rule that fired — full audit trail, no guesswork.</p>
+                    <span class="stage-num">03</span>
+                    <h3>Return a decision</h3>
+                    <p>Each request receives an explicit allow or deny with the governing rule and a complete audit record.</p>
                 </article>
                 <article class="stage-card">
-                    <span class="stage-num">4</span>
-                    <h3>Try the examples</h3>
-                    <p>One-click scenarios: safe auto-LIMIT, PII deny, destructive op deny, missing WHERE deny, and more.</p>
+                    <span class="stage-num">04</span>
+                    <h3>Exercise scenarios</h3>
+                    <p>Built-in examples cover safe auto-limit, PII denial, destructive-operation denial, and missing-WHERE denial.</p>
                 </article>
             </div>
         </section>
 
-        <section class="compare-section">
-            <h2 class="section-heading">Why a gateway, not a prompt</h2>
+        <section class="content-section">
+            <header class="section-header">
+                <h2>Why a gateway, not a prompt</h2>
+            </header>
             <div class="compare-grid">
                 <div class="compare-col compare-bad">
-                    <h3>LLM-only access</h3>
+                    <h3>Direct LLM access</h3>
                     <ul>
-                        <li>Probabilistic answers on live data</li>
+                        <li>Probabilistic responses against live data</li>
                         <li>No deterministic audit trail</li>
-                        <li>Policy lives in prompt text</li>
-                        <li>One mistake reaches production</li>
+                        <li>Policy embedded in prompt text</li>
+                        <li>A single error can reach production</li>
                     </ul>
                 </div>
                 <div class="compare-col compare-good">
                     <h3>DataSentinel gateway</h3>
                     <ul>
-                        <li>Rules decide before execution</li>
-                        <li>Every decision logged to Db2</li>
-                        <li>Fail-closed — deny by default</li>
-                        <li>Agents and humans, same policy plane</li>
+                        <li>Policy enforced before execution</li>
+                        <li>Decisions persisted to the audit plane</li>
+                        <li>Fail-closed behavior by default</li>
+                        <li>One policy surface for users and agents</li>
                     </ul>
                 </div>
             </div>
         </section>
 
-        <section class="demo-preview">
-            <h2 class="section-heading">Inside the demo</h2>
+        <section class="content-section">
+            <header class="section-header">
+                <h2>Inside the demo</h2>
+            </header>
             <div class="preview-terminal">
                 <div class="preview-chrome">
                     <div class="chat-header-dots">
@@ -115,45 +122,46 @@
                 </div>
                 <div class="preview-body">
                     <p class="preview-label">Example input</p>
-                    <code class="preview-sql">SELECT employee_id, name, department FROM DB2INST1.EMPLOYEES WHERE department = 'Engineering'</code>
+                    <code class="preview-sql">SELECT employee_id, name, department
+FROM DB2INST1.EMPLOYEES
+WHERE department = 'Engineering'</code>
                     <p class="preview-label">Governance result</p>
                     <div class="preview-result preview-allow">
-                        <strong>ALLOW</strong> — Auto-LIMIT applied (CONSTRAINT rule)
+                        <span class="result-badge">ALLOW</span>
+                        <span class="result-detail">Auto-LIMIT applied · CONSTRAINT rule</span>
                     </div>
-                    <p class="preview-hint">Switch to PII or destructive examples to see DENY paths in action.</p>
+                    <p class="preview-hint">Use the built-in PII and destructive-operation examples to review deny paths.</p>
                 </div>
             </div>
             <div class="preview-cta">
                 <a class="btn btn-primary-lg" href="https://demo.sentineldataai.com/web_demo.html" target="_blank" rel="noopener noreferrer">
-                    Open Interactive Demo →
+                    Open Interactive Demo
                 </a>
             </div>
         </section>
 
-        <section class="stack-section">
-            <h2 class="section-heading">Built for enterprise Db2</h2>
-            <div class="stack-pills">
-                <span>IBM watsonx</span>
-                <span>Db2 audit plane</span>
-                <span>MCP servers</span>
-                <span>RAG pipelines</span>
-                <span>NIST RMF aligned</span>
-            </div>
+        <section class="content-section content-section-compact">
+            <header class="section-header section-header-inline">
+                <h2>Platform capabilities</h2>
+            </header>
+            <ul class="capability-list">
+                <li>Db2 audit and policy plane</li>
+                <li>Deterministic rule engine</li>
+                <li>Agent and MCP integration</li>
+                <li>RAG-backed governance workflows</li>
+                <li>Compliance-oriented controls</li>
+            </ul>
         </section>
 
-        <footer class="footer">
-            <div class="footer-brand">
-                <img src="helmet-logo.webp" alt="" style="width:1.2rem;height:1.2rem;object-fit:contain;">
-                Sentinel Data and AI Consulting
-            </div>
-            <p>Enterprise AI Governance | IBM DB2 | watsonx Integration</p>
-            <p class="footer-links">
-                <a href="mailto:contact@sentineldataai.com">Contact</a> ·
-                <a href="https://sentineldataai.com">sentineldataai.com</a> ·
-                <a href="architecture/">Architecture</a> ·
-                <a href="ai-governance-console/">AI Governance Console</a> ·
+        <footer class="site-footer">
+            <p class="footer-org">Sentinel Data and AI Consulting</p>
+            <p class="footer-tagline">Database and AI governance for regulated enterprises</p>
+            <nav class="footer-nav" aria-label="Footer">
+                <a href="mailto:contact@sentineldataai.com">Contact</a>
+                <a href="architecture/">Architecture</a>
+                <a href="ai-governance-console/">AI Governance Console</a>
                 <a href="neuro-symbolic-demo/">Neuro-Symbolic Demo</a>
-            </p>
+            </nav>
         </footer>
     </div>
 </body>
