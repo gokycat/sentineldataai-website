@@ -990,6 +990,89 @@ body {
     text-decoration: underline;
 }
 
+.section-header a,
+.section-lead a {
+    color: var(--accent-blue);
+    text-decoration: none;
+}
+
+.section-header a:hover,
+.section-lead a:hover {
+    text-decoration: underline;
+}
+
+.credentials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.credential-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.35rem 1.5rem;
+}
+
+.credential-card h3 {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.45rem;
+}
+
+.credential-card p {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.faq-item dt {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+}
+
+.faq-item dd {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.seo-list {
+    list-style: none;
+    padding: 0;
+}
+
+.seo-list li {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--text-muted);
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.seo-list li:last-child {
+    border-bottom: none;
+}
+
+.seo-list strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.logo a {
+    display: inline-flex;
+}
+
 /* Animations */
 @keyframes fadeInDown {
     from {
@@ -1037,5 +1120,9 @@ body {
 
     .hero-card {
         padding: 1.75rem 1.25rem;
+    }
+
+    .credentials-grid {
+        grid-template-columns: 1fr;
     }
 }
