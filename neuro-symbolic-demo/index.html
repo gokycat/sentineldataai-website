@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuro-Symbolic Demo | DataSentinel</title>
+    <meta name="description" content="Watch DataSentinel's neuro-symbolic workflow: LLM orchestration with deterministic verification on IBM Db2.">
+    <link rel="icon" type="image/webp" href="../helmet-logo.webp">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <div class="bg-grid"></div>
+
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img src="../helmet-logo.webp" alt="DataSentinel Helmet" class="logo-img">
+                <span class="logo-text">DataSentinel</span>
+            </div>
+            <p class="tagline">Neuro-Symbolic Governance | <span>AI advises, Rules decide</span></p>
+            <p class="demo-back"><a href="../">← Back to DataSentinel overview</a></p>
+        </header>
+
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-header-dots">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                </div>
+                <span class="chat-header-title">Neuro-Symbolic Demo — LLM + Deterministic Tools</span>
+            </div>
+            <div class="chat-body" id="chat-body">
+                <div style="color: var(--text-muted); text-align: center; padding: 3rem;">
+                    <div style="margin-bottom: 1rem;">
+                        <img src="../helmet-logo.webp" alt="" style="width:2.5rem;height:2.5rem;object-fit:contain;">
+                    </div>
+                    <div>Click <strong>"Run Demo"</strong> to start</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="run-btn" onclick="runDemo()">
+                <span>▶</span> Run Demo
+            </button>
+            <button class="btn secondary" onclick="resetDemo()">
+                <span>↺</span> Reset
+            </button>
+        </div>
+
+        <div class="speed-control">
+            <span>Speed:</span>
+            <input type="range" id="speed" min="500" max="20000" value="5000" step="500">
+            <span id="speed-label">5.0s</span>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-brand">
+                <img src="../helmet-logo.webp" alt="" style="width:1.2rem;height:1.2rem;object-fit:contain;"> Sentinel Data and AI Consulting
+            </div>
+            <p>Enterprise AI Governance | IBM DB2 | watsonx Integration</p>
+            <p class="footer-links">
+                <a href="mailto:contact@sentineldataai.com">Contact</a> ·
+                <a href="../">Home</a> ·
+                <a href="../ai-governance-console/">AI Governance Console</a> ·
+                <a href="https://demo.sentineldataai.com/web_demo.html" target="_blank" rel="noopener noreferrer">Interactive Demo</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="../script.js" defer></script>
+</body>
+</html>
