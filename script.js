@@ -207,7 +207,7 @@ const messages = [
     {
         type: 'claude',
         content: `
-<h3 style="color: var(--accent-cyan); margin: 1.5rem 0 1rem 0;">Why This Matters for DataSentinel</h3>
+<h3 style="color: var(--accent-cyan); margin: 1.5rem 0 1rem 0;">Why This Matters for DataSentinel™</h3>
 
 <p>This is a classic LLM failure case — if I had tried to count myself, I might have said "bookkeeper" looks longer and has double letters, so maybe it has more? But the neuro-symbolic approach guarantees correctness:</p>
 
